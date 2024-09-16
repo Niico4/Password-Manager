@@ -5,12 +5,13 @@ import './globals.css';
 const onest = Onest({
   subsets: ['latin'],
   display: 'swap',
+  weight: ['200', '300', '400', '500', '700'],
 });
 
 export const metadata: Metadata = {
-  title: 'Clave Segura',
+  title: 'SavePassword',
   description:
-    'Clave Segura es una aplicación moderna para gestionar contraseñas de manera segura. Construida con Next.js y TypeScript, ofrece una interfaz elegante con TailwindCSS y NextUI, y utiliza NextAuth para su autenticación.',
+    'SavePassword es una aplicación moderna para gestionar contraseñas de manera segura. Construida con Next.js y TypeScript, ofrece una interfaz elegante con TailwindCSS y NextUI, y utiliza NextAuth para su autenticación.',
 };
 
 export default function RootLayout({

@@ -4,8 +4,8 @@ import React from 'react';
 const HomePage = () => {
   return (
     <div>
-      <h1>HomePage</h1>
-      <Button>Button</Button>
+      <h1>HomePagexd</h1>
+      <Button color="primary">Button</Button>
     </div>
   );
 };
