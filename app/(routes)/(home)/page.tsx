@@ -1,11 +1,12 @@
-import { Button } from '@nextui-org/react';
+import Title from '@/app/components/Shared/Title';
 import React from 'react';
+import ModalForm from './components/ModalForm/ModalForm';
 
 const HomePage = () => {
   return (
-    <div>
-      <h1>HomePagexd</h1>
-      <Button color="primary">Button</Button>
+    <div className="flex justify-between">
+      <Title title="Todas Las Contraseñas Guardadas" />
+      <ModalForm />
     </div>
   );
 };

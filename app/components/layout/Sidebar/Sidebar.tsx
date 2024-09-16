@@ -20,16 +20,10 @@ import {
 } from '@tabler/icons-react';
 import LinkItem from './components/LinkItem';
 import Image from 'next/image';
+
 import Logo from '@/public/Logo.svg';
 import { dataSidebarRoutes } from './Sidebar.routes';
-
-export const itemClasses = {
-  content: 'pl-4 mt-2',
-  trigger:
-    'gap-2 text-small px-4 py-2 rounded-lg transition-all hover:bg-blue-200 hover:text-blue-500',
-  title: 'text-small hover:text-blue-500',
-  indicator: 'text-black',
-};
+import { itemClasses } from './constants/itemClasses';
 
 const Sidebar = () => {
   return (

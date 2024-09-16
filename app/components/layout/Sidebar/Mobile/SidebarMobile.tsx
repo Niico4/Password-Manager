@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Navbar,
   NavbarBrand,
@@ -16,7 +16,6 @@ import {
   DropdownTrigger,
 } from '@nextui-org/react';
 import Image from 'next/image';
-import Logo from '@/public/Logo.svg';
 import {
   IconCategory,
   IconLogout,
@@ -24,13 +23,15 @@ import {
   IconShieldLock,
   IconUser,
 } from '@tabler/icons-react';
-import LinkItem from '../components/LinkItem';
 import Link from 'next/link';
+
+import LinkItem from '../components/LinkItem';
 import { dataSidebarRoutes } from '../Sidebar.routes';
-import { itemClasses } from '../Sidebar';
+import Logo from '@/public/Logo.svg';
+import { itemClasses } from '../constants/itemClasses';
 
 const SidebarMobile = () => {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <Navbar isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
