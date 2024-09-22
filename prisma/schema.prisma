@@ -26,9 +26,9 @@ model Password {
   createdAt   DateTime @default(now())
   details     String?
   password    String
-  serviceName String
+  nameService String
   updatedAt   DateTime @updatedAt
-  url         String?
+  webSite     String?
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String   @db.ObjectId
   userName    String

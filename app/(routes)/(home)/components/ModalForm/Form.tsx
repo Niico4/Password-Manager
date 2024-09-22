@@ -1,3 +1,4 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Button,
   Input,
@@ -7,11 +8,11 @@ import {
   Textarea,
 } from '@nextui-org/react';
 import React, { FC } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { formSchema, IForm } from './FormSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { ServiceCategories } from './ServicesCategory';
+import { Controller, useForm } from 'react-hook-form';
 import { z as zod } from 'zod';
+
+import { formSchema, IForm } from './FormSchema';
+import { ServiceCategories } from './ServicesCategory';
 
 interface Props {
   onClose: () => void;
@@ -28,10 +29,12 @@ const Form: FC<Props> = ({ onClose, onSubmit }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       nameService: '',
+      username: '',
       password: '',
       webSite: '',
       category: ServiceCategories.OTROS,
-      additionalNotes: '',
+      details: '',
+      userId: '',
     },
     mode: 'onBlur',
   });
@@ -102,9 +105,9 @@ const Form: FC<Props> = ({ onClose, onSubmit }) => {
       <Textarea
         label="Notas adicionales"
         variant="bordered"
-        {...register('additionalNotes')}
-        isInvalid={!!errors.additionalNotes}
-        errorMessage={errors.additionalNotes?.message}
+        {...register('details')}
+        isInvalid={!!errors.details}
+        errorMessage={errors.details?.message}
       />
 
       <ModalFooter>

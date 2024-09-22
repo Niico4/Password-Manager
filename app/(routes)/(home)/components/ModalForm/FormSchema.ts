@@ -1,4 +1,5 @@
 import { z as zod } from 'zod';
+
 import { ServiceCategories } from './ServicesCategory';
 
 export const formSchema = zod.object({
@@ -23,12 +24,13 @@ export const formSchema = zod.object({
     })
     .optional(),
 
-  additionalNotes: zod
+  details: zod
     .string()
     .max(500, {
       message: 'Las notas adicionales no pueden exceder los 500 caracteres.',
     })
     .optional(),
+  userId: zod.string(),
 });
 
 export type IForm = zod.infer<typeof formSchema>;
