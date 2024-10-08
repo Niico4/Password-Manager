@@ -9,7 +9,7 @@ const grandstander = Grandstander({
 const Title = ({ title, className }: { title: string; className?: string }) => {
   return (
     <h1
-      className={`${grandstander.className} text-zinc-600 text-3xl font-semibold ${className}`}
+      className={`${grandstander.className} text-3xl font-semibold ${className}`}
     >
       {title}
     </h1>

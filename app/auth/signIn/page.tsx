@@ -1,8 +1,9 @@
 import Title from '@/app/components/Shared/Title';
-import { Card, CardBody, CardHeader } from '@nextui-org/react';
+import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/react';
 import React from 'react';
 
 import FormSignIn from './FormSignIn';
+import Link from 'next/link';
 
 const SignInPage = () => {
   return (
@@ -10,12 +11,23 @@ const SignInPage = () => {
       <CardHeader className="flex-col items-start">
         <Title
           title="¡Bienvenido de nuevo! Protege tu mundo digital"
-          className="text-zinc-200"
+          className="text-gray-200"
         />
       </CardHeader>
       <CardBody>
         <FormSignIn />
       </CardBody>
+      <CardFooter className="justify-center">
+        <p className="text-gray-200">
+          ¿Aún no tienes cuenta?{' '}
+          <Link
+            href="/auth/signUp"
+            className="text-blue-300 hover:text-blue-500 transition-all underline"
+          >
+            Crea tu cuenta
+          </Link>
+        </p>
+      </CardFooter>
     </Card>
   );
 };

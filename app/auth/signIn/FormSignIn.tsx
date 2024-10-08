@@ -47,9 +47,9 @@ const FormSignIn = () => {
         return;
       }
 
-      toast.success('Sesión Iniciada');
-      reset();
+      toast.success('Iniciando sesión');
       router.push('/');
+      reset();
     } catch (error) {
       console.error('Error inesperado', error);
       toast.error('Ocurrió un error inesperado. Por favor intenta de nuevo.');
@@ -81,7 +81,7 @@ const FormSignIn = () => {
 
       <Link
         href={'#'}
-        className="text-sm text-blue-500 font-medium  my-4 hover:text-blue-600 transition-all"
+        className="text-sm text-blue-300 font-medium  my-4 hover:text-blue-500 transition-all"
       >
         ¿Olvidaste tu contraseña?
       </Link>
