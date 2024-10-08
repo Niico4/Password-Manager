@@ -28,7 +28,7 @@ import { signOut } from 'next-auth/react';
 
 const Sidebar = () => {
   const handleSignOut = async () => {
-    await signOut({ callbackUrl: '/login' });
+    await signOut({ callbackUrl: '/auth/signIn' });
   };
 
   return (

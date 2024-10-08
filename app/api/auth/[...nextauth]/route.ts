@@ -30,7 +30,7 @@ const handler = NextAuth({
     strategy: 'jwt',
   },
   pages: {
-    signIn: '/login',
+    signIn: '/signIn',
   },
   providers: [
     CredentialsProvider({
