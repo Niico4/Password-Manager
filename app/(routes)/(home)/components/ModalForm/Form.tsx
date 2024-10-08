@@ -9,14 +9,14 @@ import {
 } from '@nextui-org/react';
 import React, { FC } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { z as zod } from 'zod';
+import { z } from 'zod';
 
-import { formSchema, IForm } from './FormSchema';
-import { ServiceCategories } from './ServicesCategory';
+import { ServiceCategories } from './enum/ServicesCategory';
+import { passwordSchema, IForm } from './validation/PasswordSchema';
 
 interface Props {
   onClose: () => void;
-  onSubmit: (values: zod.infer<typeof formSchema>) => void;
+  onSubmit: (values: z.infer<typeof passwordSchema>) => void;
 }
 
 const Form: FC<Props> = ({ onClose, onSubmit }) => {
@@ -26,17 +26,17 @@ const Form: FC<Props> = ({ onClose, onSubmit }) => {
     control,
     formState: { errors },
   } = useForm<IForm>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(passwordSchema),
     defaultValues: {
-      nameService: '',
-      username: '',
-      password: '',
-      webSite: '',
       category: ServiceCategories.OTROS,
       details: '',
+      nameService: '',
+      password: '',
       userId: '',
+      username: '',
+      webSite: '',
     },
-    mode: 'onBlur',
+    mode: 'all',
   });
 
   console.log(errors);
@@ -57,6 +57,7 @@ const Form: FC<Props> = ({ onClose, onSubmit }) => {
         <Input
           type="text"
           label="Usuario"
+          isRequired
           variant="bordered"
           {...register('username')}
           isInvalid={!!errors.username}
@@ -67,7 +68,6 @@ const Form: FC<Props> = ({ onClose, onSubmit }) => {
         label="Contraseña"
         type="password"
         isRequired
-        required
         variant="bordered"
         {...register('password')}
         isInvalid={!!errors.password}

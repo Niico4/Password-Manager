@@ -11,11 +11,11 @@ import {
 import { IconPlus } from '@tabler/icons-react';
 import Form from './Form';
 import { z as zod } from 'zod';
-import { formSchema } from './FormSchema';
+import { passwordSchema } from './validation/PasswordSchema';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { ServiceCategories } from './ServicesCategory';
+import { ServiceCategories } from './enum/ServicesCategory';
 import { useRouter } from 'next/navigation';
 
 const ModalForm = () => {
@@ -23,7 +23,7 @@ const ModalForm = () => {
   const { reset } = useForm();
   const { refresh } = useRouter();
 
-  const handleSubmit = async (values: zod.infer<typeof formSchema>) => {
+  const handleSubmit = async (values: zod.infer<typeof passwordSchema>) => {
     try {
       await axios.post('/api/passwords', values);
       toast.success('Contraseña Creada Correctamente');

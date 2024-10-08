@@ -6,10 +6,10 @@ const grandstander = Grandstander({
   weight: ['600'],
 });
 
-const Title = ({ title }: { title: string }) => {
+const Title = ({ title, className }: { title: string; className?: string }) => {
   return (
     <h1
-      className={`${grandstander.className} text-zinc-600 text-3xl font-semibold`}
+      className={`${grandstander.className} text-zinc-600 text-3xl font-semibold ${className}`}
     >
       {title}
     </h1>

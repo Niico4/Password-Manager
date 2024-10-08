@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export const POST = async (req: Request) => {
   try {
-    const { nameService, password, webSite, details, userId, userName } =
+    const { nameService, password, webSite, details, userId, username } =
       await req.json();
 
     const newPassword = await db.password.create({
@@ -12,7 +12,7 @@ export const POST = async (req: Request) => {
         nameService,
         password,
         userId,
-        userName,
+        username,
         webSite,
       },
     });

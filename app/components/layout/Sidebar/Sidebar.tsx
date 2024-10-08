@@ -24,8 +24,13 @@ import Image from 'next/image';
 import Logo from '@/public/Logo.svg';
 import { dataSidebarRoutes } from './Sidebar.routes';
 import { itemClasses } from './constants/itemClasses';
+import { signOut } from 'next-auth/react';
 
 const Sidebar = () => {
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: '/login' });
+  };
+
   return (
     <aside className="w-full flex flex-col items-center my-10">
       <div className="flex flex-col justify-between h-full">
@@ -95,7 +100,7 @@ const Sidebar = () => {
                 <IconShieldLock stroke={1} /> Seguridad
               </Link>
             </DropdownItem>
-            <DropdownItem key="logout" color="danger">
+            <DropdownItem key="logout" color="danger" onClick={handleSignOut}>
               <div className="flex gap-2 items-center text-small rounded-lg font-light text-red-500 hover:text-white">
                 <IconLogout stroke={1} /> Cerrar Sesión
               </div>
