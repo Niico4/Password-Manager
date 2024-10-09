@@ -1,3 +1,4 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Button,
   Input,
@@ -7,15 +8,15 @@ import {
   Textarea,
 } from '@nextui-org/react';
 import React, { FC } from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { formSchema, IForm } from './FormSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { ServiceCategories } from './ServicesCategory';
-import { z as zod } from 'zod';
+import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
+
+import { ServiceCategories } from './enum/ServicesCategory';
+import { passwordSchema, IForm } from './validation/PasswordSchema';
 
 interface Props {
   onClose: () => void;
-  onSubmit: (values: zod.infer<typeof formSchema>) => void;
+  onSubmit: (values: z.infer<typeof passwordSchema>) => void;
 }
 
 const Form: FC<Props> = ({ onClose, onSubmit }) => {
@@ -25,15 +26,17 @@ const Form: FC<Props> = ({ onClose, onSubmit }) => {
     control,
     formState: { errors },
   } = useForm<IForm>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(passwordSchema),
     defaultValues: {
+      category: ServiceCategories.OTROS,
+      details: '',
       nameService: '',
       password: '',
+      userId: '',
+      username: '',
       webSite: '',
-      category: ServiceCategories.OTROS,
-      additionalNotes: '',
     },
-    mode: 'onBlur',
+    mode: 'all',
   });
 
   console.log(errors);
@@ -54,6 +57,7 @@ const Form: FC<Props> = ({ onClose, onSubmit }) => {
         <Input
           type="text"
           label="Usuario"
+          isRequired
           variant="bordered"
           {...register('username')}
           isInvalid={!!errors.username}
@@ -64,7 +68,6 @@ const Form: FC<Props> = ({ onClose, onSubmit }) => {
         label="Contraseña"
         type="password"
         isRequired
-        required
         variant="bordered"
         {...register('password')}
         isInvalid={!!errors.password}
@@ -102,9 +105,9 @@ const Form: FC<Props> = ({ onClose, onSubmit }) => {
       <Textarea
         label="Notas adicionales"
         variant="bordered"
-        {...register('additionalNotes')}
-        isInvalid={!!errors.additionalNotes}
-        errorMessage={errors.additionalNotes?.message}
+        {...register('details')}
+        isInvalid={!!errors.details}
+        errorMessage={errors.details?.message}
       />
 
       <ModalFooter>

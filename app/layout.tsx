@@ -23,17 +23,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${onest.className} antialiased`}>{children}</body>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        closeOnClick={true}
-        pauseOnHover={true}
-        draggable={true}
-        theme="light"
-        transition={Bounce}
-      />
+      <body className={`${onest.className} antialiased`}>
+        {children}
+        <div>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={2000}
+            hideProgressBar={false}
+            closeOnClick={true}
+            pauseOnHover={true}
+            draggable={true}
+            theme="light"
+            transition={Bounce}
+          />
+        </div>
+      </body>
     </html>
   );
 }

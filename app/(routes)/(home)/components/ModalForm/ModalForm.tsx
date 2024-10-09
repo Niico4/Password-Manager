@@ -11,19 +11,37 @@ import {
 import { IconPlus } from '@tabler/icons-react';
 import Form from './Form';
 import { z as zod } from 'zod';
-import { formSchema } from './FormSchema';
+import { passwordSchema } from './validation/PasswordSchema';
 import { toast } from 'react-toastify';
-import { v4 as uuid } from 'uuid';
+import axios from 'axios';
+import { useForm } from 'react-hook-form';
+import { ServiceCategories } from './enum/ServicesCategory';
+import { useRouter } from 'next/navigation';
 
 const ModalForm = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { reset } = useForm();
+  const { refresh } = useRouter();
 
-  const handleSubmit = (values: zod.infer<typeof formSchema>) => {
-    const newValue = { ...values, id: uuid() };
+  const handleSubmit = async (values: zod.infer<typeof passwordSchema>) => {
+    try {
+      await axios.post('/api/passwords', values);
+      toast.success('Contraseña Creada Correctamente');
 
-    console.log(newValue);
+      reset({
+        nameService: '',
+        password: '',
+        webSite: '',
+        category: ServiceCategories.OTROS,
+        details: '',
+        userId: '',
+      });
 
-    toast.success('Guardado correctamente');
+      refresh();
+    } catch (error) {
+      console.error(error);
+      toast.error('Algo salió mal');
+    }
   };
 
   return (
