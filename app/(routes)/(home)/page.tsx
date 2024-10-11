@@ -4,6 +4,7 @@ import ModalForm from './components/ModalForm/ModalForm';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { db } from '@/utils/prisma';
+import DataTable from './components/TableData/DataTable';
 
 const HomePage = async () => {
   const session = await getServerSession();
@@ -23,15 +24,15 @@ const HomePage = async () => {
     },
   });
 
-  if (!user?.id) {
+  if (!user?.id || !user.passwords) {
     return redirect('/');
   }
 
   return (
-    <div className="flex justify-between">
-      <Title title="Todas Las Contraseñas Guardadas" />
-      <ModalForm userId={user?.id} />
-    </div>
+    <section>
+      <Title title="Todas Las Contraseñas Guardadas" className="mt-6" />
+      <DataTable passwords={user.passwords} userId={user?.id} />
+    </section>
   );
 };
 

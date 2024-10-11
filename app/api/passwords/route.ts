@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 export const POST = async (req: Request) => {
   try {
     const {
+      category,
       details,
       isFavorite,
       nameService,
@@ -15,6 +16,7 @@ export const POST = async (req: Request) => {
 
     const newPassword = await db.password.create({
       data: {
+        category,
         details,
         isFavorite,
         nameService,

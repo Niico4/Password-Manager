@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Modal,
   ModalContent,
@@ -17,6 +15,7 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { ServiceCategories } from './enum/ServicesCategory';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 const ModalForm = ({ userId }: { userId: string }) => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -24,8 +23,13 @@ const ModalForm = ({ userId }: { userId: string }) => {
   const { refresh } = useRouter();
 
   const handleSubmit = async (values: zod.infer<typeof passwordSchema>) => {
+    if (!values.category) {
+      values.category = ServiceCategories.OTROS;
+    }
     try {
       await axios.post('/api/passwords', values);
+      toast.success('Contraseña Guardada Correctamente');
+      refresh();
 
       reset({
         category: ServiceCategories.OTROS,
@@ -38,12 +42,13 @@ const ModalForm = ({ userId }: { userId: string }) => {
         webSite: '',
       });
 
-      toast.success('Contraseña Guardada Correctamente');
       onClose();
-      refresh();
     } catch (error) {
       console.error(error);
-      toast.error('Algo salió mal');
+      const errorMessage = axios.isAxiosError(error)
+        ? error.response?.data.message
+        : 'Algo salió mal';
+      toast.error(errorMessage);
     }
   };
 
@@ -53,7 +58,8 @@ const ModalForm = ({ userId }: { userId: string }) => {
         onPress={onOpen}
         color="primary"
         variant="shadow"
-        startContent={<IconPlus stroke={1.75} />}
+        endContent={<IconPlus stroke={1.75} />}
+        aria-label="Agregar nueva contraseña"
       >
         Nueva Contraseña
       </Button>
