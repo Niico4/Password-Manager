@@ -24,13 +24,8 @@ import Image from 'next/image';
 import Logo from '@/public/Logo.svg';
 import { dataSidebarRoutes } from './Sidebar.routes';
 import { itemClasses } from './constants/itemClasses';
-import { signOut } from 'next-auth/react';
 
 const Sidebar = () => {
-  const handleSignOut = async () => {
-    await signOut({ callbackUrl: '/auth/signIn' });
-  };
-
   return (
     <aside className="w-full flex flex-col items-center my-10">
       <div className="flex flex-col justify-between h-full">
@@ -84,7 +79,7 @@ const Sidebar = () => {
             </Button>
           </DropdownTrigger>
           <DropdownMenu aria-label="Static Actions">
-            <DropdownItem key="profile" color="primary">
+            <DropdownItem key="profile" color="primary" textValue="Perfil">
               <Link
                 href="/profile"
                 className="flex gap-2 items-center text-small rounded-lg font-light"
@@ -92,7 +87,7 @@ const Sidebar = () => {
                 <IconUser stroke={1} /> Perfil
               </Link>
             </DropdownItem>
-            <DropdownItem key="security" color="primary">
+            <DropdownItem key="security" color="primary" textValue="Seguridad">
               <Link
                 href="/profile"
                 className="flex gap-2 items-center text-small rounded-lg font-light"
@@ -100,8 +95,13 @@ const Sidebar = () => {
                 <IconShieldLock stroke={1} /> Seguridad
               </Link>
             </DropdownItem>
-            <DropdownItem key="logout" color="danger" onClick={handleSignOut}>
-              <div className="flex gap-2 items-center text-small rounded-lg font-light text-red-500 hover:text-white">
+            <DropdownItem
+              key="logout"
+              variant="flat"
+              color="danger"
+              textValue="Cerrar sesión"
+            >
+              <div className="flex gap-2 items-center text-small rounded-lg font-light">
                 <IconLogout stroke={1} /> Cerrar Sesión
               </div>
             </DropdownItem>

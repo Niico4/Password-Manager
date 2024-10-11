@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Button,
+  Checkbox,
   Input,
   ModalFooter,
   Select,
@@ -13,33 +14,41 @@ import { z } from 'zod';
 
 import { ServiceCategories } from './enum/ServicesCategory';
 import { passwordSchema, IForm } from './validation/PasswordSchema';
+import { IconHeartFilled } from '@tabler/icons-react';
 
 interface Props {
   onClose: () => void;
   onSubmit: (values: z.infer<typeof passwordSchema>) => void;
+  userId: string;
 }
 
-const Form: FC<Props> = ({ onClose, onSubmit }) => {
+const IconHeartFilledWrapper = (props: any) => {
+  const { isSelected, isIndeterminate, disableAnimation, ...rest } = props;
+
+  return <IconHeartFilled {...rest} />;
+};
+
+const Form: FC<Props> = ({ onClose, onSubmit, userId }) => {
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
+    setValue,
   } = useForm<IForm>({
     resolver: zodResolver(passwordSchema),
     defaultValues: {
       category: ServiceCategories.OTROS,
       details: '',
+      isFavorite: false,
       nameService: '',
       password: '',
-      userId: '',
+      userId,
       username: '',
       webSite: '',
     },
     mode: 'all',
   });
-
-  console.log(errors);
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
@@ -109,6 +118,14 @@ const Form: FC<Props> = ({ onClose, onSubmit }) => {
         isInvalid={!!errors.details}
         errorMessage={errors.details?.message}
       />
+
+      <Checkbox
+        icon={<IconHeartFilledWrapper />}
+        {...register('isFavorite')}
+        onChange={(e) => setValue('isFavorite', e.target.checked)}
+      >
+        Añadir a Favorito
+      </Checkbox>
 
       <ModalFooter>
         <Button color="danger" variant="flat" onPress={onClose}>

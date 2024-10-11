@@ -26,6 +26,7 @@ model Password {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt   DateTime @default(now())
   details     String?
+  isFavorite  Boolean  @default(false)
   nameService String
   password    String
   updatedAt   DateTime @updatedAt

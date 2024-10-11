@@ -3,12 +3,20 @@ import { NextResponse } from 'next/server';
 
 export const POST = async (req: Request) => {
   try {
-    const { nameService, password, webSite, details, userId, username } =
-      await req.json();
+    const {
+      details,
+      isFavorite,
+      nameService,
+      password,
+      userId,
+      username,
+      webSite,
+    } = await req.json();
 
     const newPassword = await db.password.create({
       data: {
         details,
+        isFavorite,
         nameService,
         password,
         userId,

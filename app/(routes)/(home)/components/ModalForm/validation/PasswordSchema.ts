@@ -25,12 +25,10 @@ export const passwordSchema = z.object({
         'Tu nombre de usuario no puede superar los 15 caracteres. ¡Hazlo más breve!',
     }),
 
-  password: z
-    .string()
-    .min(6, {
-      message:
-        'La contraseña es demasiado corta. Usa al menos 6 caracteres para mayor seguridad.',
-    }),
+  password: z.string().min(6, {
+    message:
+      'La contraseña es demasiado corta. Usa al menos 6 caracteres para mayor seguridad.',
+  }),
 
   webSite: z
     .string()
@@ -54,6 +52,7 @@ export const passwordSchema = z.object({
     })
     .optional(),
   userId: z.string(),
+  isFavorite: z.boolean().optional().default(false),
 });
 
 export type IForm = z.infer<typeof passwordSchema>;

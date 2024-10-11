@@ -18,25 +18,28 @@ import { useForm } from 'react-hook-form';
 import { ServiceCategories } from './enum/ServicesCategory';
 import { useRouter } from 'next/navigation';
 
-const ModalForm = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+const ModalForm = ({ userId }: { userId: string }) => {
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const { reset } = useForm();
   const { refresh } = useRouter();
 
   const handleSubmit = async (values: zod.infer<typeof passwordSchema>) => {
     try {
       await axios.post('/api/passwords', values);
-      toast.success('Contraseña Creada Correctamente');
 
       reset({
-        nameService: '',
-        password: '',
-        webSite: '',
         category: ServiceCategories.OTROS,
         details: '',
-        userId: '',
+        isFavorite: false,
+        nameService: '',
+        password: '',
+        userId,
+        username: '',
+        webSite: '',
       });
 
+      toast.success('Contraseña Guardada Correctamente');
+      onClose();
       refresh();
     } catch (error) {
       console.error(error);
@@ -62,7 +65,11 @@ const ModalForm = () => {
                 Crea tu Contraseña
               </ModalHeader>
               <ModalBody>
-                <Form onClose={onClose} onSubmit={handleSubmit} />
+                <Form
+                  userId={userId}
+                  onClose={onClose}
+                  onSubmit={handleSubmit}
+                />
               </ModalBody>
             </>
           )}
