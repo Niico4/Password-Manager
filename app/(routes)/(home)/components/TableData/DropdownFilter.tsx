@@ -7,6 +7,7 @@ import {
 } from '@nextui-org/react';
 import { IconChevronDown } from '@tabler/icons-react';
 import React from 'react';
+
 import { ServiceCategories } from '../ModalForm/enum/ServicesCategory';
 
 const DropdownFilter = ({

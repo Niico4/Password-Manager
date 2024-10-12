@@ -1,5 +1,6 @@
-import { db } from '@/utils/prisma';
 import { NextResponse } from 'next/server';
+
+import { db } from '@/utils/prisma';
 
 export const POST = async (req: Request) => {
   try {
@@ -29,7 +30,7 @@ export const POST = async (req: Request) => {
 
     return NextResponse.json(newPassword);
   } catch (error) {
-    console.error(error);
+    console.error('Error al crear contraseña', error);
     return new NextResponse('Internal Error', { status: 500 });
   }
 };

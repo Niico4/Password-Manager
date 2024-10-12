@@ -8,13 +8,16 @@ import {
   TableCell,
   Input,
   Pagination,
+  useDisclosure,
 } from '@nextui-org/react';
 import { Password } from '@prisma/client';
 import React, { useState, useMemo } from 'react';
-import { columns } from './Columns';
-import { ServiceCategories } from '../ModalForm/enum/ServicesCategory';
 import { IconZoom } from '@tabler/icons-react';
+
+import { ServiceCategories } from '../ModalForm/enum/ServicesCategory';
 import ModalForm from '../ModalForm/ModalForm';
+
+import { columns } from './Columns';
 import DropdownFilter from './DropdownFilter';
 
 const DataTable = ({
@@ -30,8 +33,9 @@ const DataTable = ({
   );
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(15);
+  const [editingPassword, setEditingPassword] = useState<Password | null>(null);
 
-  const hasSearchFilter = Boolean(filterValue);
+  const { onOpen, isOpen, onClose, onOpenChange } = useDisclosure();
 
   const filteredPasswords = useMemo(() => {
     let filteredPasswords = passwords;
@@ -75,10 +79,16 @@ const DataTable = ({
           page={page}
           total={pages}
           onChange={setPage}
+          aria-label="Controles de paginación"
         />
       </div>
     );
-  }, [items.length, page, pages, hasSearchFilter]);
+  }, [page, pages]);
+
+  const handleModalClose = () => {
+    setEditingPassword(null);
+    onClose();
+  };
 
   const topContent = () => (
     <article>
@@ -95,7 +105,15 @@ const DataTable = ({
             categoryFilter={categoryFilter}
             setCategoryFilter={setCategoryFilter}
           />
-          <ModalForm userId={userId} />
+          <ModalForm
+            userId={userId}
+            editingPassword={editingPassword}
+            setEditingPassword={setEditingPassword}
+            onOpen={onOpen}
+            isOpen={isOpen}
+            onClose={handleModalClose}
+            onOpenChange={onOpenChange}
+          />
         </div>
       </div>
       <span className="text-default-400 text-small">
@@ -137,7 +155,7 @@ const DataTable = ({
                 return (
                   <TableCell>
                     {column && column.cell ? (
-                      column.cell({ row: rowItem })
+                      column.cell({ row: rowItem, setEditingPassword, onOpen })
                     ) : typeof value === 'string' && value.includes('http') ? (
                       <a
                         href={value}

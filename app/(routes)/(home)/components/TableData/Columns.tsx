@@ -1,38 +1,40 @@
-import { Tooltip, Button } from '@nextui-org/react';
+import { Button, Tooltip } from '@nextui-org/react';
 import { Password } from '@prisma/client';
 import { IconCopy, IconEdit } from '@tabler/icons-react';
-import React from 'react';
-import { toast } from 'react-toastify';
+import React, { Dispatch, SetStateAction } from 'react';
+
+import {
+  handleCopyPassword,
+  handleUpdatePassword,
+} from '@/app/(routes)/(home)/components/TableData/utils/passwordsHandlers';
 
 interface Column {
   uid: string;
   name: string;
-  cell?: (props: { row: Password }) => JSX.Element;
+  cell?: (props: {
+    setEditingPassword: Dispatch<SetStateAction<Password | null>>;
+
+    onOpen: () => void;
+    row: Password;
+  }) => JSX.Element;
 }
 
 export const columns: Column[] = [
-  { name: 'Nombre del Servicio', uid: 'nameService' },
-  { name: 'Nombre de Usuario', uid: 'username' },
-  { name: 'Sitio Web', uid: 'webSite' },
-  { name: 'Categoría', uid: 'category' },
-  { name: 'Detalles', uid: 'details' },
+  { name: 'Nombre del Servicio', uid: 'nameService', cell: undefined },
+  { name: 'Nombre de Usuario', uid: 'username', cell: undefined },
+  { name: 'Sitio Web', uid: 'webSite', cell: undefined },
+  { name: 'Categoría', uid: 'category', cell: undefined },
+  { name: 'Detalles', uid: 'details', cell: undefined },
   {
     uid: 'actions',
     name: 'Acciones',
-    cell: ({ row }) => {
+    cell: ({ row, setEditingPassword, onOpen }) => {
       const password = row.password;
       const username = row.username;
 
-      const handleCopyPassword = (item: string, name: string) => {
-        navigator.clipboard.writeText(item);
-        toast.success(
-          `La contraseña de ${name} se ha copiado al portapapeles.`
-        );
-      };
-
-      const handleUpdatePassword = () => {
-        console.log('Editandoooo');
-      };
+      const handleCopyClick = () => handleCopyPassword(password, username);
+      const handleEditClick = () =>
+        handleUpdatePassword(row, setEditingPassword, onOpen);
 
       return (
         <div className="flex gap-2 justify-center items-center">
@@ -49,14 +51,14 @@ export const columns: Column[] = [
                 color="secondary"
                 startContent={<IconCopy stroke={1} />}
                 isIconOnly
-                onClick={() => handleCopyPassword(password, username)}
+                onClick={handleCopyClick}
                 aria-label={`Copiar contraseña de ${username}`}
               />
             </Tooltip>
           )}
           <Tooltip
             content="Editar Contraseña"
-            color="primary"
+            color="warning"
             showArrow
             size="sm"
           >
@@ -66,7 +68,7 @@ export const columns: Column[] = [
               color="warning"
               variant="flat"
               isIconOnly
-              onClick={handleUpdatePassword}
+              onClick={handleEditClick}
               aria-label={`Editar contraseña de ${username}`}
             />
           </Tooltip>

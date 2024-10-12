@@ -1,9 +1,10 @@
-import Title from '@/app/components/Shared/Title';
-import React from 'react';
-import ModalForm from './components/ModalForm/ModalForm';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
+import React from 'react';
+
 import { db } from '@/utils/prisma';
+import Title from '@/app/components/Shared/Title';
+
 import DataTable from './components/TableData/DataTable';
 
 const HomePage = async () => {

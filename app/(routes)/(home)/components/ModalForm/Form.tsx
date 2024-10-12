@@ -8,34 +8,39 @@ import {
   SelectItem,
   Textarea,
 } from '@nextui-org/react';
-import React, { FC } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-import { ServiceCategories } from './enum/ServicesCategory';
-import { passwordSchema, IForm } from './validation/PasswordSchema';
+import { Password } from '@prisma/client';
 import { IconHeartFilled } from '@tabler/icons-react';
+import React, { FC, useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
-interface Props {
+import { validateCategory } from '@/utils/validatePasswordCategory';
+
+import IconWrapper from './components/IconWrapper';
+import { ServiceCategories } from './enum/ServicesCategory';
+import { passwordSchema, PasswordType } from './validation/PasswordSchema';
+
+interface FormProps {
+  editingPassword: Password | null;
+
   onClose: () => void;
-  onSubmit: (values: z.infer<typeof passwordSchema>) => void;
+  onSubmit: (values: PasswordType) => void;
   userId: string;
 }
 
-const IconHeartFilledWrapper = (props: any) => {
-  const { isSelected, isIndeterminate, disableAnimation, ...rest } = props;
-
-  return <IconHeartFilled {...rest} />;
-};
-
-const Form: FC<Props> = ({ onClose, onSubmit, userId }) => {
+const Form: FC<FormProps> = ({
+  onClose,
+  onSubmit,
+  userId,
+  editingPassword,
+}) => {
   const {
-    register,
-    handleSubmit,
     control,
     formState: { errors },
+    handleSubmit,
+    register,
+    reset,
     setValue,
-  } = useForm<IForm>({
+  } = useForm<PasswordType>({
     resolver: zodResolver(passwordSchema),
     defaultValues: {
       category: ServiceCategories.OTROS,
@@ -46,9 +51,25 @@ const Form: FC<Props> = ({ onClose, onSubmit, userId }) => {
       userId,
       username: '',
       webSite: '',
+      ...(editingPassword && {
+        category: validateCategory(editingPassword.category),
+        details: editingPassword.details || '',
+        isFavorite: editingPassword.isFavorite,
+        nameService: editingPassword.nameService,
+        password: editingPassword.password,
+        username: editingPassword.username,
+        webSite: editingPassword.webSite || '',
+        userId: editingPassword.userId,
+      }),
     },
     mode: 'all',
   });
+
+  useEffect(() => {
+    if (editingPassword) {
+      reset();
+    }
+  }, [editingPassword, reset]);
 
   return (
     <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
@@ -120,7 +141,7 @@ const Form: FC<Props> = ({ onClose, onSubmit, userId }) => {
       />
 
       <Checkbox
-        icon={<IconHeartFilledWrapper />}
+        icon={<IconWrapper icon={<IconHeartFilled size={14} />} />}
         {...register('isFavorite')}
         onChange={(e) => setValue('isFavorite', e.target.checked)}
       >
@@ -132,7 +153,7 @@ const Form: FC<Props> = ({ onClose, onSubmit, userId }) => {
           Cancelar
         </Button>
         <Button type="submit" color="primary">
-          Crear
+          {editingPassword ? 'Guardar' : 'Crear'}
         </Button>
       </ModalFooter>
     </form>
