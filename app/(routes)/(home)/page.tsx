@@ -1,13 +1,39 @@
-import Title from '@/app/components/Shared/Title';
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
 import React from 'react';
-import ModalForm from './components/ModalForm/ModalForm';
 
-const HomePage = () => {
+import { db } from '@/utils/prisma';
+import Title from '@/app/components/Shared/Title';
+
+import DataTable from './components/TableData/DataTable';
+
+const HomePage = async () => {
+  const session = await getServerSession();
+
+  if (!session || !session.user?.email) {
+    return redirect('/');
+  }
+
+  const user = await db.user.findUnique({
+    where: { email: session.user.email },
+    include: {
+      passwords: {
+        orderBy: {
+          createdAt: 'desc',
+        },
+      },
+    },
+  });
+
+  if (!user?.id || !user.passwords) {
+    return redirect('/');
+  }
+
   return (
-    <div className="flex justify-between">
-      <Title title="Todas Las Contraseñas Guardadas" />
-      <ModalForm />
-    </div>
+    <section>
+      <Title title="Todas Las Contraseñas Guardadas" className="mt-6" />
+      <DataTable passwords={user.passwords} userId={user?.id} />
+    </section>
   );
 };
 

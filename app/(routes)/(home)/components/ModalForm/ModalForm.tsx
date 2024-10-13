@@ -1,68 +1,135 @@
-'use client';
-
 import {
+  Button,
   Modal,
+  ModalBody,
   ModalContent,
   ModalHeader,
-  ModalBody,
-  Button,
-  useDisclosure,
 } from '@nextui-org/react';
+import { Password } from '@prisma/client';
 import { IconPlus } from '@tabler/icons-react';
-import Form from './Form';
-import { z as zod } from 'zod';
-import { passwordSchema } from './validation/PasswordSchema';
-import { toast } from 'react-toastify';
 import axios from 'axios';
-import { useForm } from 'react-hook-form';
-import { ServiceCategories } from './enum/ServicesCategory';
 import { useRouter } from 'next/navigation';
+import { FC, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
-const ModalForm = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { reset } = useForm();
+import { validateCategory } from '@/utils/validatePasswordCategory';
+
+import { ServiceCategories } from './enum/ServicesCategory';
+import Form from './Form';
+import { PasswordType } from './validation/PasswordSchema';
+
+interface ModalProps {
+  editingPassword: Password | null;
+  setEditingPassword: React.Dispatch<React.SetStateAction<Password | null>>;
+
+  isOpen: boolean;
+  onClose: () => void;
+  onOpen: () => void;
+  onOpenChange: () => void;
+  userId: string;
+}
+
+const ModalForm: FC<ModalProps> = ({
+  editingPassword,
+  setEditingPassword,
+  isOpen,
+  onClose,
+  onOpen,
+  onOpenChange,
+  userId,
+}) => {
+  const { reset, setValue } = useForm<PasswordType>();
   const { refresh } = useRouter();
 
-  const handleSubmit = async (values: zod.infer<typeof passwordSchema>) => {
+  const handleSubmit = async (values: PasswordType) => {
+    const category = values.category || ServiceCategories.OTROS;
+
+    const ACTIONS = editingPassword
+      ? axios.put(`/api/passwords/update/${editingPassword.id}`, {
+          ...values,
+          category,
+        })
+      : axios.post('/api/passwords/create', { ...values, category });
+
+    const ACTION_MESSAGE = editingPassword
+      ? 'Contraseña Actualizada Correctamente'
+      : 'Contraseña Guardada Correctamente';
+
     try {
-      await axios.post('/api/passwords', values);
-      toast.success('Contraseña Creada Correctamente');
+      await ACTIONS;
+      toast.success(ACTION_MESSAGE);
 
       reset({
-        nameService: '',
-        password: '',
-        webSite: '',
         category: ServiceCategories.OTROS,
         details: '',
-        userId: '',
+        isFavorite: false,
+        nameService: '',
+        password: '',
+        userId,
+        username: '',
+        webSite: '',
       });
 
+      onClose();
       refresh();
     } catch (error) {
-      console.error(error);
-      toast.error('Algo salió mal');
+      console.error('Error inesperado', error);
+      if (axios.isAxiosError(error) && error.response) {
+        toast.error(error.response.data.message || 'Error inesperado');
+      }
     }
   };
+
+  const setFormValues = (passwordValues: Password | null) => {
+    if (!passwordValues) return;
+
+    setValue('nameService', passwordValues.nameService);
+    setValue('username', passwordValues.username);
+    setValue('password', passwordValues.password);
+    setValue('webSite', passwordValues.webSite || '');
+    setValue('details', passwordValues.details || '');
+    setValue('category', validateCategory(passwordValues.category));
+    setValue('isFavorite', passwordValues.isFavorite);
+  };
+
+  useEffect(() => {
+    if (isOpen && editingPassword) {
+      setFormValues(editingPassword);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, editingPassword, setValue]);
+
+  const isEditing = Boolean(editingPassword);
 
   return (
     <>
       <Button
-        onPress={onOpen}
+        onPress={() => {
+          setEditingPassword(null);
+          onOpen();
+        }}
         color="primary"
         variant="shadow"
-        startContent={<IconPlus stroke={1.75} />}
+        endContent={<IconPlus stroke={1.75} />}
+        aria-label="Crear Contraseña"
       >
-        Nueva Contraseña
+        Crear Contraseña
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Crea tu Contraseña
+                {isEditing ? 'Edita tu Contraseña' : 'Crea tu Contraseña'}
               </ModalHeader>
               <ModalBody>
-                <Form onClose={onClose} onSubmit={handleSubmit} />
+                <Form
+                  editingPassword={editingPassword}
+                  userId={userId}
+                  onClose={onClose}
+                  onSubmit={handleSubmit}
+                />
               </ModalBody>
             </>
           )}

@@ -12,7 +12,7 @@ export default function RootLayout({
         <SidebarMobile />
       </article>
 
-      <section className="hidden lg:flex h-full max-w-lg w-60">
+      <section className="hidden lg:flex h-full max-w-lg w-60 shadow-lg shadow-black/20">
         <Sidebar />
       </section>
 
