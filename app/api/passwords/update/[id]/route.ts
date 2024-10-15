@@ -18,6 +18,6 @@ export const PUT = async (
     return NextResponse.json(updatedPassword);
   } catch (error) {
     console.error('Error al actualizar contraseña:', error);
-    return new NextResponse('Internal Error', { status: 500 });
+    return new NextResponse('Error interno del servidor', { status: 500 });
   }
 };
