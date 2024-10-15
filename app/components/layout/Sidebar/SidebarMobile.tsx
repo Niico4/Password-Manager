@@ -24,11 +24,13 @@ import {
   IconUser,
 } from '@tabler/icons-react';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 
-import LinkItem from '../components/LinkItem';
-import { dataSidebarRoutes } from '../Sidebar.routes';
 import Logo from '@/public/Logo.svg';
-import { itemClasses } from '../constants/itemClasses';
+
+import LinkItem from './components/LinkItem';
+import { itemClasses } from './constants/itemClasses';
+import { dataSidebarRoutes } from './Sidebar.routes';
 
 const SidebarMobile = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -114,7 +116,11 @@ const SidebarMobile = () => {
                   <IconShieldLock stroke={1} /> Seguridad
                 </Link>
               </DropdownItem>
-              <DropdownItem key="logout" color="danger">
+              <DropdownItem
+                key="logout"
+                color="danger"
+                onClick={() => signOut()}
+              >
                 <div className="flex gap-2 items-center text-small rounded-lg font-light text-red-500 hover:text-white">
                   <IconLogout stroke={1} /> Cerrar Sesión
                 </div>

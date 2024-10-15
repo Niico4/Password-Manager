@@ -32,7 +32,7 @@ const FormSignUp = () => {
 
   const onSubmit = async (data: IFormSignUp) => {
     try {
-      const response = await fetch('/api/auth/signUp', {
+      const response = await fetch('/api/auth/sign-up', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const FormSignUp = () => {
       }
 
       toast.success('Usuario creado correctamente');
-      router.push('/auth/signIn');
+      router.push('/auth/sign-in');
       reset();
     } catch (error) {
       console.error(error);

@@ -1,9 +1,10 @@
-import Title from '@/app/components/shared/Title';
 import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/react';
 import React from 'react';
+import Link from 'next/link';
+
+import Title from '@/app/components/shared/Title';
 
 import FormSignUp from './FormSignUp';
-import Link from 'next/link';
 
 const SignUpPage = () => {
   return (

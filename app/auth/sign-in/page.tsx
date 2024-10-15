@@ -1,9 +1,10 @@
-import Title from '@/app/components/shared/Title';
 import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/react';
 import React from 'react';
+import Link from 'next/link';
+
+import Title from '@/app/components/shared/Title';
 
 import FormSignIn from './FormSignIn';
-import Link from 'next/link';
 
 const SignInPage = () => {
   return (
@@ -21,7 +22,7 @@ const SignInPage = () => {
         <p className="text-gray-200">
           ¿Aún no tienes cuenta?{' '}
           <Link
-            href="/auth/signUp"
+            href="/auth/sign-up"
             className="text-blue-300 hover:text-blue-500 transition-all underline"
           >
             Crea tu cuenta
