@@ -18,10 +18,12 @@ import {
   IconShieldLock,
   IconLogout,
 } from '@tabler/icons-react';
-import LinkItem from './components/LinkItem';
 import Image from 'next/image';
+import { signOut } from 'next-auth/react';
 
 import Logo from '@/public/Logo.svg';
+
+import LinkItem from './components/LinkItem';
 import { dataSidebarRoutes } from './Sidebar.routes';
 import { itemClasses } from './constants/itemClasses';
 
@@ -100,6 +102,7 @@ const Sidebar = () => {
               variant="flat"
               color="danger"
               textValue="Cerrar sesión"
+              onClick={() => signOut()}
             >
               <div className="flex gap-2 items-center text-small rounded-lg font-light">
                 <IconLogout stroke={1} /> Cerrar Sesión

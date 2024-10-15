@@ -1,5 +1,5 @@
-import SidebarMobile from '@/app/components/layout/Sidebar/Mobile/SidebarMobile';
-import Sidebar from '@/app/components/layout/Sidebar/Sidebar';
+import Sidebar from '../components/layout/sidebar/Sidebar';
+import SidebarMobile from '../components/layout/sidebar/SidebarMobile';
 
 export default function RootLayout({
   children,

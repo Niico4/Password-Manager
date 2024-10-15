@@ -14,10 +14,10 @@ import { toast } from 'react-toastify';
 
 import { validateCategory } from '@/utils/validatePasswordCategory';
 
-import { ServiceCategories } from './enum/ServicesCategory';
+import { ServiceCategories } from '../../../../utils/enum/ServicesCategory';
 import Form from './Form';
-import { PasswordType } from './validation/PasswordSchema';
-import { ModalProps } from '../../interfaces/PasswordManagement';
+import { PasswordType } from '../../../../utils/validation/PasswordSchema';
+import { ModalProps } from '../interfaces/PasswordManagement';
 
 const ModalForm: FC<ModalProps> = ({
   userId,
@@ -118,7 +118,7 @@ const ModalForm: FC<ModalProps> = ({
           onOpen();
         }}
         isDisabled={isSubmitting}
-        color="primary"
+        color="secondary"
         variant="shadow"
         endContent={<IconPlus stroke={1.75} />}
         aria-label="Crear Contraseña"

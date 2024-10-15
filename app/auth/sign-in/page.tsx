@@ -1,30 +1,31 @@
-import Title from '@/app/components/Shared/Title';
 import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/react';
 import React from 'react';
-
-import FormSignUp from './FormSignUp';
 import Link from 'next/link';
 
-const SignUpPage = () => {
+import Title from '@/app/components/shared/Title';
+
+import FormSignIn from './FormSignIn';
+
+const SignInPage = () => {
   return (
     <Card className="w-[500px] mx-auto p-4 bg-white/10" isBlurred>
       <CardHeader className="flex-col items-start">
         <Title
-          title="Regístrate y Olvídate de Recordar Contraseñas"
+          title="¡Bienvenido de nuevo! Protege tu mundo digital"
           className="text-gray-200"
         />
       </CardHeader>
       <CardBody>
-        <FormSignUp />
+        <FormSignIn />
       </CardBody>
       <CardFooter className="justify-center">
         <p className="text-gray-200">
-          ¿Ya tienes cuenta?{' '}
+          ¿Aún no tienes cuenta?{' '}
           <Link
-            href="/auth/signIn"
+            href="/auth/sign-up"
             className="text-blue-300 hover:text-blue-500 transition-all underline"
           >
-            Inicia Sesión
+            Crea tu cuenta
           </Link>
         </p>
       </CardFooter>
@@ -32,4 +33,4 @@ const SignUpPage = () => {
   );
 };
 
-export default SignUpPage;
+export default SignInPage;

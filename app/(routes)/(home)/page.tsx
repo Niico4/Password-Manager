@@ -3,9 +3,8 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 
 import { db } from '@/utils/prisma';
-import Title from '@/app/components/Shared/Title';
-
-import DataTable from './components/TableData/DataTable';
+import Title from '@/app/components/shared/Title';
+import DataTable from './data-table/DataTable';
 
 const HomePage = async () => {
   const session = await getServerSession();

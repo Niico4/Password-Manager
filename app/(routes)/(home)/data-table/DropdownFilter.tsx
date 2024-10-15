@@ -8,7 +8,7 @@ import {
 import { IconChevronDown } from '@tabler/icons-react';
 import React, { FC } from 'react';
 
-import { ServiceCategories } from '../ModalForm/enum/ServicesCategory';
+import { ServiceCategories } from '../../../../utils/enum/ServicesCategory';
 
 interface Props {
   categoryFilter: Set<string>;

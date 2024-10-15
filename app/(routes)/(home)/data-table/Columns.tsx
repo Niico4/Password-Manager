@@ -2,12 +2,12 @@ import { Button, Tooltip } from '@nextui-org/react';
 import { IconCopy, IconEdit, IconTrash } from '@tabler/icons-react';
 import React from 'react';
 
+import { Column } from '../interfaces/Column';
 import {
   handleCopyPassword,
   handleDeletePassword,
   handleUpdatePassword,
-} from '@/app/(routes)/(home)/components/TableData/utils/passwordsHandlers';
-import { Column } from '../../interfaces/Column';
+} from '@/utils/passwordsHandlers';
 
 export const columns: Column[] = [
   { name: 'Nombre del Servicio', uid: 'nameService', cell: undefined },

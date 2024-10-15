@@ -1,7 +1,8 @@
-import { db } from '@/utils/prisma';
 import { compare } from 'bcrypt';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+
+import { db } from '@/utils/prisma';
 
 type Credentials = { email: string; password: string };
 type UserResponse = { id: string; email: string; name: string };
@@ -30,7 +31,7 @@ const handler = NextAuth({
     strategy: 'jwt',
   },
   pages: {
-    signIn: '/signIn',
+    signIn: '/auth/sign-in',
   },
   providers: [
     CredentialsProvider({
