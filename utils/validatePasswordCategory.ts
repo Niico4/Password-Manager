@@ -1,4 +1,4 @@
-import { ServiceCategories } from '@/app/(routes)/(home)/components/ModalForm/enum/ServicesCategory';
+import { ServiceCategories } from '@/utils/enum/ServicesCategory';
 
 export const validateCategory = (
   category: string | null

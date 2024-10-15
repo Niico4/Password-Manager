@@ -15,9 +15,12 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { validateCategory } from '@/utils/validatePasswordCategory';
 
-import IconWrapper from './components/IconWrapper';
-import { ServiceCategories } from './enum/ServicesCategory';
-import { passwordSchema, PasswordType } from './validation/PasswordSchema';
+import IconWrapper from '../../../components/shared/IconWrapper';
+import { ServiceCategories } from '../../../../utils/enum/ServicesCategory';
+import {
+  passwordSchema,
+  PasswordType,
+} from '../../../../utils/validation/PasswordSchema';
 
 interface FormProps {
   editingPassword: Password | null;

@@ -12,7 +12,7 @@ import {
 import { Password } from '@prisma/client';
 import React, { useState, useMemo, useEffect, FC } from 'react';
 
-import { ServiceCategories } from '../ModalForm/enum/ServicesCategory';
+import { ServiceCategories } from '../../../../utils/enum/ServicesCategory';
 
 import { columns } from './Columns';
 import { useRouter } from 'next/navigation';
@@ -105,7 +105,7 @@ const DataTable: FC<Props> = ({ passwords, userId }) => {
           isCompact
           showControls
           showShadow
-          color="primary"
+          color="secondary"
           page={page}
           total={pages}
           onChange={setPage}

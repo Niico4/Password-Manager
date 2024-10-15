@@ -2,8 +2,7 @@ import { Password } from '@prisma/client';
 import { Dispatch, SetStateAction } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-
-import { validateCategory } from '../../../../../../utils/validatePasswordCategory';
+import { validateCategory } from './validatePasswordCategory';
 
 export const handleCopyPassword = async (item: string, name: string) => {
   try {
