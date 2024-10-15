@@ -8,8 +8,7 @@ import {
 import { Password } from '@prisma/client';
 import { IconPlus } from '@tabler/icons-react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
@@ -18,46 +17,54 @@ import { validateCategory } from '@/utils/validatePasswordCategory';
 import { ServiceCategories } from './enum/ServicesCategory';
 import Form from './Form';
 import { PasswordType } from './validation/PasswordSchema';
-
-interface ModalProps {
-  editingPassword: Password | null;
-  setEditingPassword: React.Dispatch<React.SetStateAction<Password | null>>;
-
-  isOpen: boolean;
-  onClose: () => void;
-  onOpen: () => void;
-  onOpenChange: () => void;
-  userId: string;
-}
+import { ModalProps } from '../../interfaces/PasswordManagement';
 
 const ModalForm: FC<ModalProps> = ({
-  editingPassword,
-  setEditingPassword,
+  userId,
   isOpen,
+  editingPassword,
+  setCurrentPasswords,
+  setEditingPassword,
   onClose,
   onOpen,
   onOpenChange,
-  userId,
 }) => {
   const { reset, setValue } = useForm<PasswordType>();
-  const { refresh } = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const ACTION_MESSAGE = editingPassword
+    ? 'Contraseña Actualizada Correctamente'
+    : 'Contraseña Guardada Correctamente';
+
+  const updatePasswords = (updatedPassword: Password) => {
+    setCurrentPasswords((prevPasswords) => {
+      if (editingPassword) {
+        return prevPasswords.map((password) =>
+          password.id === updatedPassword.id ? updatedPassword : password
+        );
+      }
+      return [updatedPassword, ...prevPasswords];
+    });
+  };
 
   const handleSubmit = async (values: PasswordType) => {
     const category = values.category || ServiceCategories.OTROS;
+    if (isSubmitting) return;
 
-    const ACTIONS = editingPassword
-      ? axios.put(`/api/passwords/update/${editingPassword.id}`, {
-          ...values,
-          category,
-        })
-      : axios.post('/api/passwords/create', { ...values, category });
-
-    const ACTION_MESSAGE = editingPassword
-      ? 'Contraseña Actualizada Correctamente'
-      : 'Contraseña Guardada Correctamente';
+    setIsSubmitting(true);
 
     try {
-      await ACTIONS;
+      const response = editingPassword
+        ? await axios.put(`/api/passwords/update/${editingPassword.id}`, {
+            ...values,
+            category,
+          })
+        : await axios.post('/api/passwords/create', { ...values, category });
+
+      const updatedPassword: Password = response.data;
+
+      updatePasswords(updatedPassword);
+
       toast.success(ACTION_MESSAGE);
 
       reset({
@@ -72,12 +79,13 @@ const ModalForm: FC<ModalProps> = ({
       });
 
       onClose();
-      refresh();
     } catch (error) {
       console.error('Error inesperado', error);
       if (axios.isAxiosError(error) && error.response) {
         toast.error(error.response.data.message || 'Error inesperado');
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -109,6 +117,7 @@ const ModalForm: FC<ModalProps> = ({
           setEditingPassword(null);
           onOpen();
         }}
+        isDisabled={isSubmitting}
         color="primary"
         variant="shadow"
         endContent={<IconPlus stroke={1.75} />}

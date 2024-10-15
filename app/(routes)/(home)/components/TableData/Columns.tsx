@@ -1,23 +1,13 @@
 import { Button, Tooltip } from '@nextui-org/react';
-import { Password } from '@prisma/client';
-import { IconCopy, IconEdit } from '@tabler/icons-react';
-import React, { Dispatch, SetStateAction } from 'react';
+import { IconCopy, IconEdit, IconTrash } from '@tabler/icons-react';
+import React from 'react';
 
 import {
   handleCopyPassword,
+  handleDeletePassword,
   handleUpdatePassword,
 } from '@/app/(routes)/(home)/components/TableData/utils/passwordsHandlers';
-
-interface Column {
-  uid: string;
-  name: string;
-  cell?: (props: {
-    setEditingPassword: Dispatch<SetStateAction<Password | null>>;
-
-    onOpen: () => void;
-    row: Password;
-  }) => JSX.Element;
-}
+import { Column } from '../../interfaces/Column';
 
 export const columns: Column[] = [
   { name: 'Nombre del Servicio', uid: 'nameService', cell: undefined },
@@ -28,27 +18,35 @@ export const columns: Column[] = [
   {
     uid: 'actions',
     name: 'Acciones',
-    cell: ({ row, setEditingPassword, onOpen }) => {
+    cell: ({ row, setEditingPassword, setCurrentPasswords, onOpen }) => {
       const password = row.password;
       const username = row.username;
 
       const handleCopyClick = () => handleCopyPassword(password, username);
       const handleEditClick = () =>
-        handleUpdatePassword(row, setEditingPassword, onOpen);
+        handleUpdatePassword(
+          row,
+          setEditingPassword,
+          setCurrentPasswords,
+          onOpen
+        );
+
+      const handleDeleteClick = async () =>
+        await handleDeletePassword(row.id, username, setCurrentPasswords);
 
       return (
         <div className="flex gap-2 justify-center items-center">
           {password && (
             <Tooltip
               content="Copiar Contraseña"
-              color="secondary"
+              color="success"
               showArrow
               size="sm"
             >
               <Button
                 size="sm"
                 variant="flat"
-                color="secondary"
+                color="success"
                 startContent={<IconCopy stroke={1} />}
                 isIconOnly
                 onClick={handleCopyClick}
@@ -70,6 +68,23 @@ export const columns: Column[] = [
               isIconOnly
               onClick={handleEditClick}
               aria-label={`Editar contraseña de ${username}`}
+            />
+          </Tooltip>
+
+          <Tooltip
+            content="Eliminar Contraseña"
+            color="danger"
+            showArrow
+            size="sm"
+          >
+            <Button
+              size="sm"
+              startContent={<IconTrash stroke={1} />}
+              color="danger"
+              variant="flat"
+              isIconOnly
+              onClick={handleDeleteClick}
+              aria-label={`Eliminar contraseña de ${username}`}
             />
           </Tooltip>
         </div>

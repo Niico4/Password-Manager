@@ -6,27 +6,24 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Input,
   Pagination,
   useDisclosure,
 } from '@nextui-org/react';
 import { Password } from '@prisma/client';
-import React, { useState, useMemo } from 'react';
-import { IconZoom } from '@tabler/icons-react';
+import React, { useState, useMemo, useEffect, FC } from 'react';
 
 import { ServiceCategories } from '../ModalForm/enum/ServicesCategory';
-import ModalForm from '../ModalForm/ModalForm';
 
 import { columns } from './Columns';
-import DropdownFilter from './DropdownFilter';
+import { useRouter } from 'next/navigation';
+import TopContentDataTable from './TopContent';
 
-const DataTable = ({
-  passwords,
-  userId,
-}: {
+interface Props {
   passwords: Password[];
   userId: string;
-}) => {
+}
+
+const DataTable: FC<Props> = ({ passwords, userId }) => {
   const [filterValue, setFilterValue] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<Set<string>>(
     new Set(Object.values(ServiceCategories))
@@ -34,11 +31,14 @@ const DataTable = ({
   const [page, setPage] = useState(1);
   const [rowsPerPage] = useState(15);
   const [editingPassword, setEditingPassword] = useState<Password | null>(null);
+  const [currentPasswords, setCurrentPasswords] =
+    useState<Password[]>(passwords);
 
   const { onOpen, isOpen, onClose, onOpenChange } = useDisclosure();
+  const { refresh } = useRouter();
 
   const filteredPasswords = useMemo(() => {
-    let filteredPasswords = passwords;
+    let filteredPasswords = currentPasswords;
 
     if (filterValue) {
       filteredPasswords = filteredPasswords.filter(
@@ -55,9 +55,8 @@ const DataTable = ({
         (password) => password.category && categoryFilter.has(password.category)
       );
     }
-
     return filteredPasswords;
-  }, [passwords, filterValue, categoryFilter]);
+  }, [currentPasswords, filterValue, categoryFilter]);
 
   const pages = Math.ceil(filteredPasswords.length / rowsPerPage);
 
@@ -67,6 +66,37 @@ const DataTable = ({
 
     return filteredPasswords.slice(startPage, endPage);
   }, [page, filteredPasswords, rowsPerPage]);
+
+  const handleModalClose = () => {
+    setEditingPassword(null);
+    refresh();
+    onClose();
+  };
+
+  useEffect(() => {
+    setCurrentPasswords(passwords);
+  }, [passwords]);
+
+  const topContent = () => {
+    return (
+      <TopContentDataTable
+        categoryFilter={categoryFilter}
+        editingPassword={editingPassword}
+        filteredPasswords={filteredPasswords}
+        handleModalClose={handleModalClose}
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onOpenChange={onOpenChange}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        setCategoryFilter={setCategoryFilter}
+        setCurrentPasswords={setCurrentPasswords}
+        setEditingPassword={setEditingPassword}
+        setFilterValue={setFilterValue}
+        userId={userId}
+      />
+    );
+  };
 
   const bottomContent = useMemo(() => {
     return (
@@ -84,46 +114,6 @@ const DataTable = ({
       </div>
     );
   }, [page, pages]);
-
-  const handleModalClose = () => {
-    setEditingPassword(null);
-    onClose();
-  };
-
-  const topContent = () => (
-    <article>
-      <div className="flex justify-between items-center mb-4">
-        <Input
-          startContent={<IconZoom stroke={1} />}
-          className="w-1/3"
-          isClearable
-          placeholder="Buscar por usuario o servicio"
-          onValueChange={(value) => setFilterValue(value)}
-        />
-        <div className="flex items-center justify-center gap-4">
-          <DropdownFilter
-            categoryFilter={categoryFilter}
-            setCategoryFilter={setCategoryFilter}
-          />
-          <ModalForm
-            userId={userId}
-            editingPassword={editingPassword}
-            setEditingPassword={setEditingPassword}
-            onOpen={onOpen}
-            isOpen={isOpen}
-            onClose={handleModalClose}
-            onOpenChange={onOpenChange}
-          />
-        </div>
-      </div>
-      <span className="text-default-400 text-small">
-        {`${(page - 1) * rowsPerPage + 1} - ${Math.min(
-          page * rowsPerPage,
-          filteredPasswords.length
-        )} de ${filteredPasswords.length} Contraseñas`}
-      </span>
-    </article>
-  );
 
   return (
     <section className="my-16">
@@ -155,7 +145,12 @@ const DataTable = ({
                 return (
                   <TableCell>
                     {column && column.cell ? (
-                      column.cell({ row: rowItem, setEditingPassword, onOpen })
+                      column.cell({
+                        row: rowItem,
+                        setEditingPassword,
+                        setCurrentPasswords,
+                        onOpen,
+                      })
                     ) : typeof value === 'string' && value.includes('http') ? (
                       <a
                         href={value}

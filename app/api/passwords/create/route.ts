@@ -30,7 +30,7 @@ export const POST = async (req: Request) => {
 
     return NextResponse.json(newPassword);
   } catch (error) {
-    console.error('Error al crear contraseña', error);
-    return new NextResponse('Internal Error', { status: 500 });
+    console.error('Error interno del servidor', error);
+    return new NextResponse('Error interno del servidor', { status: 500 });
   }
 };

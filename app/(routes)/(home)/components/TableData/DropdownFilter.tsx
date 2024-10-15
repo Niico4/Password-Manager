@@ -6,17 +6,16 @@ import {
   DropdownItem,
 } from '@nextui-org/react';
 import { IconChevronDown } from '@tabler/icons-react';
-import React from 'react';
+import React, { FC } from 'react';
 
 import { ServiceCategories } from '../ModalForm/enum/ServicesCategory';
 
-const DropdownFilter = ({
-  categoryFilter,
-  setCategoryFilter,
-}: {
+interface Props {
   categoryFilter: Set<string>;
   setCategoryFilter: (value: React.SetStateAction<Set<string>>) => void;
-}) => {
+}
+
+const DropdownFilter: FC<Props> = ({ categoryFilter, setCategoryFilter }) => {
   return (
     <Dropdown>
       <DropdownTrigger className="hidden sm:flex">
