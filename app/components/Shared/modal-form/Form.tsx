@@ -46,7 +46,7 @@ const Form: FC<FormProps> = ({
   } = useForm<PasswordType>({
     resolver: zodResolver(passwordSchema),
     defaultValues: {
-      category: ServiceCategories.OTROS,
+      category: ServiceCategories.OTHERS,
       details: '',
       isFavorite: false,
       nameService: '',

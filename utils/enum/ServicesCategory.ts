@@ -2,5 +2,5 @@ export enum ServiceCategories {
   SOCIAL = 'Social',
   VIDEOGAMES = 'VideoJuegos',
   SUBSCRIPTION = 'Suscripciones',
-  OTROS = 'Otros',
+  OTHERS = 'Otros Servicios',
 }

@@ -11,19 +11,19 @@ import {
 } from '@nextui-org/react';
 import { Password } from '@prisma/client';
 import React, { useState, useMemo, useEffect, FC } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { ServiceCategories } from '../../../../utils/enum/ServicesCategory';
+import { ServiceCategories } from '@/utils/enum/ServicesCategory';
+import TopContentDataTable from '@/app/components/shared/table-data/TopContent';
 
 import { columns } from './Columns';
-import { useRouter } from 'next/navigation';
-import TopContentDataTable from './TopContent';
 
-interface Props {
+interface DataTableProps {
   passwords: Password[];
   userId: string;
 }
 
-const DataTable: FC<Props> = ({ passwords, userId }) => {
+const DataTable: FC<DataTableProps> = ({ passwords, userId }) => {
   const [filterValue, setFilterValue] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<Set<string>>(
     new Set(Object.values(ServiceCategories))
@@ -77,7 +77,7 @@ const DataTable: FC<Props> = ({ passwords, userId }) => {
     setCurrentPasswords(passwords);
   }, [passwords]);
 
-  const topContent = () => {
+  const contentHeader = () => {
     return (
       <TopContentDataTable
         categoryFilter={categoryFilter}
@@ -118,10 +118,10 @@ const DataTable: FC<Props> = ({ passwords, userId }) => {
   return (
     <section className="my-16">
       <Table
-        aria-label="Tabla for Passwords User"
+        aria-label="Tabla de Contraseñas"
         color="primary"
         bottomContent={bottomContent}
-        topContent={topContent()}
+        topContent={contentHeader()}
         className="w-4/5 mx-auto"
       >
         <TableHeader columns={columns}>

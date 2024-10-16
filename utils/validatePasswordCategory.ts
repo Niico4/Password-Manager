@@ -7,5 +7,5 @@ export const validateCategory = (
     category as ServiceCategories
   )
     ? (category as ServiceCategories)
-    : ServiceCategories.OTROS;
+    : ServiceCategories.OTHERS;
 };

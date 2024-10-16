@@ -4,7 +4,7 @@ import React from 'react';
 
 import { db } from '@/utils/prisma';
 import Title from '@/app/components/shared/Title';
-import DataTable from './data-table/DataTable';
+import DataTable from '@/app/components/shared/table-data/DataTable';
 
 const HomePage = async () => {
   const session = await getServerSession();
@@ -31,7 +31,7 @@ const HomePage = async () => {
   return (
     <section>
       <Title title="Todas Las Contraseñas Guardadas" className="mt-6" />
-      <DataTable passwords={user.passwords} userId={user?.id} />
+      <DataTable passwords={user.passwords} userId={user?.id} topContent />
     </section>
   );
 };
