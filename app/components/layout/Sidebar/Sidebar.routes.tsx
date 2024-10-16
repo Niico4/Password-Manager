@@ -1,4 +1,5 @@
 import {
+  IconBrandCashapp,
   IconDeviceDesktopAnalytics,
   IconDeviceGamepad,
   IconHeart,
@@ -18,18 +19,23 @@ export const dataSidebarRoutes = [
     children: [
       {
         title: 'Favoritas',
-        href: '/favorites',
+        href: '/categories/favorites',
         icon: IconHeart,
       },
       {
         title: 'Social',
-        href: '/social',
+        href: '/categories/social',
         icon: IconUsers,
       },
       {
         title: 'VideoJuegos',
-        href: '/games',
+        href: '/categories/videogames',
         icon: IconDeviceGamepad,
+      },
+      {
+        title: 'Suscripciones',
+        href: '/categories/subscriptions',
+        icon: IconBrandCashapp,
       },
     ],
   },

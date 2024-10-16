@@ -1,9 +1,12 @@
 import { Input } from '@nextui-org/react';
 import { IconZoom } from '@tabler/icons-react';
 import React, { FC } from 'react';
-import DropdownFilter from './DropdownFilter';
+
+import { TopContntProps } from '@/app/interfaces/PasswordManagement';
+
 import ModalForm from '../modal-form/ModalForm';
-import { TopContntProps } from '../interfaces/PasswordManagement';
+
+import DropdownFilter from './DropdownFilter';
 
 const TopContentDataTable: FC<TopContntProps> = ({
   setFilterValue,

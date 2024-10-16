@@ -15,9 +15,10 @@ import { toast } from 'react-toastify';
 import { validateCategory } from '@/utils/validatePasswordCategory';
 
 import { ServiceCategories } from '../../../../utils/enum/ServicesCategory';
-import Form from './Form';
 import { PasswordType } from '../../../../utils/validation/PasswordSchema';
-import { ModalProps } from '../interfaces/PasswordManagement';
+import { ModalProps } from '../../../interfaces/PasswordManagement';
+
+import Form from './Form';
 
 const ModalForm: FC<ModalProps> = ({
   userId,
@@ -48,7 +49,7 @@ const ModalForm: FC<ModalProps> = ({
   };
 
   const handleSubmit = async (values: PasswordType) => {
-    const category = values.category || ServiceCategories.OTROS;
+    const category = values.category || ServiceCategories.OTHERS;
     if (isSubmitting) return;
 
     setIsSubmitting(true);
@@ -68,7 +69,7 @@ const ModalForm: FC<ModalProps> = ({
       toast.success(ACTION_MESSAGE);
 
       reset({
-        category: ServiceCategories.OTROS,
+        category: ServiceCategories.OTHERS,
         details: '',
         isFavorite: false,
         nameService: '',
