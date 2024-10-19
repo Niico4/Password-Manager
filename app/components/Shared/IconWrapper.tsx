@@ -1,22 +1,22 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IconHeartFilled } from '@tabler/icons-react';
-import React, { FC, ReactNode } from 'react';
+import { Icon, IconProps } from '@tabler/icons-react';
+import React, { FC } from 'react';
 
 interface Props {
   isIndeterminate?: boolean;
   isSelected?: boolean;
   disableAnimation?: boolean;
-  icon: ReactNode;
+  icon: React.ForwardRefExoticComponent<IconProps & React.RefAttributes<Icon>>;
 }
 
 const IconWrapper: FC<Props> = ({
   disableAnimation,
   isIndeterminate,
   isSelected,
-  icon,
+  icon: Icon,
   ...rest
 }) => {
-  return <IconHeartFilled {...rest} />;
+  return <Icon {...rest} />;
 };
 
 export default IconWrapper;

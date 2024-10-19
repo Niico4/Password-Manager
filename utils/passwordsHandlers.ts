@@ -2,9 +2,10 @@ import { Password } from '@prisma/client';
 import { Dispatch, SetStateAction } from 'react';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+
 import { validateCategory } from './validatePasswordCategory';
 
-export const handleCopyPassword = async (item: string, name: string) => {
+export const handleCopyPassword = async (item: string, name: string | null) => {
   try {
     await navigator.clipboard.writeText(item);
     toast.success(`La contraseña de ${name} se ha copiado al portapapeles.`);
