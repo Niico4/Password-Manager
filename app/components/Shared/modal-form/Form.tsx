@@ -144,7 +144,7 @@ const Form: FC<FormProps> = ({
       />
 
       <Checkbox
-        icon={<IconWrapper icon={<IconHeartFilled size={14} />} />}
+        icon={<IconWrapper icon={IconHeartFilled} />}
         {...register('isFavorite')}
         onChange={(e) => setValue('isFavorite', e.target.checked)}
       >

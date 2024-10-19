@@ -31,7 +31,7 @@ const HomePage = async () => {
   return (
     <section>
       <Title title="Todas Las Contraseñas Guardadas" className="mt-6" />
-      <DataTable passwords={user.passwords} userId={user?.id} topContent />
+      <DataTable passwords={user.passwords} userId={user?.id} />
     </section>
   );
 };
