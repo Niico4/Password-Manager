@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
+import { Card, CardBody, CardHeader } from '@nextui-org/react';
 
 import { ProgressCircle } from '@/app/components/shared/charts/ProgressCircle';
-import { Card, CardBody, CardHeader } from '@nextui-org/react';
 
 const ProgressCirclePasswords: FC<{ totalPasswordsCount: number }> = ({
   totalPasswordsCount,

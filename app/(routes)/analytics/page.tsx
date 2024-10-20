@@ -6,8 +6,8 @@ import Title from '@/app/components/shared/Title';
 import { db } from '@/utils/prisma';
 import { countPasswords } from '@/utils/countPasswords';
 
-import ProgressBarPasswords from './components/ProgressBarPasswords';
-import ProgressCirclePasswords from './components/ProgressCirclePasswords';
+import ProgressBarPasswords from './ProgressBarPasswords';
+import ProgressCirclePasswords from './ProgressCirclePasswords';
 
 const AnalyticsPage = async () => {
   const session = await getServerSession();

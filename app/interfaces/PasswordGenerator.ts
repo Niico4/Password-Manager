@@ -1,7 +1,7 @@
 import { SliderValue } from '@nextui-org/react';
 
 export interface FormInitialValues {
-  value: SliderValue;
+  value: number;
   isMayus: boolean;
   isMinus: boolean;
   isNumbers: boolean;

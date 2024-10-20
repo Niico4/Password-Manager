@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
+import { Card, CardBody, CardHeader } from '@nextui-org/react';
 
 import { ProgressBar } from '@/app/components/shared/charts/ProgressBar';
-import { Card, CardBody, CardHeader } from '@nextui-org/react';
 
 const ProgressBarPassword: FC<{
   favoriteCount: number;
