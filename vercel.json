@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "env": {
+    "DATABASE_URL": "your-database-url",
+    "NEXTAUTH_JWT_SECRET": "your-nextauth-jwt-secret",
+    "NEXTAUTH_SECRET": "your-nextauth-secret",
+    "UPLOADTHING_TOKEN": "your-uploadthing-token"
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "functions": {
+    "api/**/*.ts": {
+      "runtime": "nodejs18.x"
+    }
+  }
+}
