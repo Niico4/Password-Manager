@@ -7,7 +7,7 @@ import FormGenerator from './FormGenerator';
 const PasswordGeneratorPage = () => {
   return (
     <>
-      <Title title="Genera tu Contraseña" className="mt-6" />
+      <Title title="Genera tu Contraseña" />
       <FormGenerator />
     </>
   );
