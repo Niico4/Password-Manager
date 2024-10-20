@@ -9,7 +9,7 @@ import {
   ModalHeader,
 } from '@nextui-org/react';
 import { User } from '@prisma/client';
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,12 +17,12 @@ import Image from 'next/image';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { ClientUploadedFileData } from 'uploadthing/types';
 
 import { UploadButton } from '@/utils/uploadThing';
 import { ModalProps } from '@/app/interfaces/PasswordManagement';
 
 import { profileSchema } from './validation/ProfileSchema';
-import { ClientUploadedFileData } from 'uploadthing/types';
 
 interface Props
   extends Omit<
