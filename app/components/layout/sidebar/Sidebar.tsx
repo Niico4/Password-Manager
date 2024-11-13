@@ -15,7 +15,7 @@ import {
   IconCategory,
   IconSettings,
   IconUser,
-  IconShieldLock,
+  // IconShieldLock,
   IconLogout,
 } from '@tabler/icons-react';
 import Image from 'next/image';
@@ -89,14 +89,14 @@ const Sidebar = () => {
                 <IconUser stroke={1} /> Perfil
               </Link>
             </DropdownItem>
-            <DropdownItem key="security" color="primary" textValue="Seguridad">
+            {/* <DropdownItem key="security" color="primary" textValue="Seguridad">
               <Link
                 href="/profile"
                 className="flex gap-2 items-center text-small rounded-lg font-light"
               >
                 <IconShieldLock stroke={1} /> Seguridad
               </Link>
-            </DropdownItem>
+            </DropdownItem> */}
             <DropdownItem
               key="logout"
               variant="flat"

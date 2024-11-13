@@ -22,7 +22,7 @@ const SignUpPage = () => {
         <p className="text-gray-200">
           ¿Ya tienes cuenta?{' '}
           <Link
-            href="/auth/signIn"
+            href="/auth/sign-in"
             className="text-blue-300 hover:text-blue-500 transition-all underline"
           >
             Inicia Sesión
